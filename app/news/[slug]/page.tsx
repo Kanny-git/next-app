@@ -9,20 +9,13 @@ type Props = {
     slug: string
   };
   searchParams: {
-    dk?: { [key: string]: string | string[] | undefined };
+    dk?: string;
   };
 };
 
-export default async function Page({ params, searchParams }: Props) {
-  const draftKey =
-    typeof searchParams.dk === "string"
-      ? searchParams.dk
-      : Array.isArray(searchParams.dk)
-      ? searchParams.dk[0]
-      : undefined;
-
+export default async function Page({ params, searchParams = {} }: Props) {
   const data = await getNewsDetail(params.slug, {
-    draftKey,
+    draftKey: searchParams.dk,
   }).catch(notFound);
   return (
     <>

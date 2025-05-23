@@ -4,19 +4,31 @@ import ButtonLink from "@/app/_components/ButtonLink";
 import styles from "./page.module.css";
 import { notFound } from "next/navigation";
 
-type PageProps = {
-  params: {
-    slug: string;
-  };
-  searchParams: {
-    dk?: string;
-  }
-};
+// type PageProps = {
+//   params: {
+//     slug: string;
+//   };
+//   searchParams: {
+//     dk?: string;
+//   }
+// };
 
-export default async function Page({ params, searchParams }: PageProps) {
+// export default async function Page({ params, searchParams }: PageProps) {
+//   const data = await getNewsDetail(params.slug, {
+//     draftKey: searchParams.dk,
+//   }).catch(notFound);
+
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const data = await getNewsDetail(params.slug, {
-    draftKey: searchParams.dk,
+    draftKey: searchParams?.dk as string | undefined,
   }).catch(notFound);
+
   return (
     <>
       <Article data={data} />

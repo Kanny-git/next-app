@@ -5,15 +5,18 @@ import styles from "./page.module.css";
 import { notFound } from "next/navigation";
 
 type Props = {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: {
+    slug: string
+  };
+  searchParams: {
+    dk?: string;
+  };
 };
 
-export default async function Page({ params, searchParams }: Props) {
+export default async function Page({ params, searchParams = {} }: Props) {
   const data = await getNewsDetail(params.slug, {
-    draftKey: searchParams.dk as string,
+    draftKey: searchParams.dk,
   }).catch(notFound);
-
   return (
     <>
       <Article data={data} />

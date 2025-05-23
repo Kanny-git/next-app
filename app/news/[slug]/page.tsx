@@ -18,16 +18,20 @@ import { notFound } from "next/navigation";
 //     draftKey: searchParams.dk,
 //   }).catch(notFound);
 
-export default async function Page({
-  params,
-  searchParams,
-}: {
+type PageProps = {
   params: Promise<{ slug: string }>;
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  const resolvedParams = await params;
+  searchParams: Promise<{ dk?: string }>;
+};
+
+export default async function Page({ params, searchParams }: PageProps) {
+  // Resolve both promises
+  const [resolvedParams, resolvedSearchParams] = await Promise.all([
+    params,
+    searchParams,
+  ]);
+
   const data = await getNewsDetail(resolvedParams.slug, {
-    draftKey: searchParams?.dk as string | undefined,
+    draftKey: resolvedSearchParams.dk,
   }).catch(notFound);
 
   return (

@@ -4,7 +4,7 @@ import ButtonLink from "@/app/_components/ButtonLink";
 import styles from "./page.module.css";
 import { notFound } from "next/navigation";
 
-type Props = {
+type PageProps = {
   params: {
     slug: string;
   };
@@ -13,7 +13,7 @@ type Props = {
   }
 };
 
-export default async function Page({ params, searchParams }: Props) {
+export default async function Page({ params, searchParams }: PageProps) {
   const data = await getNewsDetail(params.slug, {
     draftKey: searchParams.dk,
   }).catch(notFound);

@@ -22,10 +22,11 @@ export default async function Page({
   params,
   searchParams,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const data = await getNewsDetail(params.slug, {
+  const resolvedParams = await params;
+  const data = await getNewsDetail(resolvedParams.slug, {
     draftKey: searchParams?.dk as string | undefined,
   }).catch(notFound);
 

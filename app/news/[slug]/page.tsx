@@ -6,16 +6,23 @@ import { notFound } from "next/navigation";
 
 type Props = {
   params: {
-    slug: string;
+    slug: string
   };
   searchParams: {
-    dk?: string;
+    dk?: { [key: string]: string | string[] | undefined };
   };
 };
 
 export default async function Page({ params, searchParams }: Props) {
+  const draftKey =
+    typeof searchParams.dk === "string"
+      ? searchParams.dk
+      : Array.isArray(searchParams.dk)
+      ? searchParams.dk[0]
+      : undefined;
+
   const data = await getNewsDetail(params.slug, {
-    draftKey: searchParams.dk,
+    draftKey,
   }).catch(notFound);
   return (
     <>
